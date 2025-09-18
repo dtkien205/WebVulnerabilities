@@ -1,0 +1,3 @@
+DEBUG = False
+LOG_LEVEL = "INFO"
+VERSION = "1.0.0"
