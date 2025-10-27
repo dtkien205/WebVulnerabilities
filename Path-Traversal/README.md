@@ -1,86 +1,117 @@
-## Warm up
+# Path Traversal
 
-- Absolute Path: /usr/bin/hello.txt
-- Relative Path: ./hello.txt
-    Một dấu chấm thể hiện thư mục hiện tại
-    Hai dấu chấm thể hiện thư mục cha
+Path traversal (còn gọi là directory traversal) là kiểu lỗ hổng cho phép kẻ tấn công đọc các tệp (file) tùy ý trên máy chủ đang chạy ứng dụng. Những tệp này có thể bao gồm:
 
-#### Ví dụ: 
-    ./hello.txt → thư mục hiện tại: bin
-    cd ../hello.txt → usr
+- Mã nguồn và dữ liệu của ứng dụng.
+- Thông tin xác thực (credentials) của các hệ thống back-end.
+- Các tệp nhạy cảm của hệ điều hành.
 
-### Tất cả những chức năng liên quan đến việc XỬ LÝ FILE sẽ có khả năng bị lỗi Path Traversal
-    - Download / Upload
-    - Import / Export
-    - Menu động
-    - Load Resource
-    - Zip / Unzip
-    - Xử lý hình ảnh
+Trong một số trường hợp, kẻ tấn công còn có thể ghi vào các tệp tùy ý trên máy chủ, từ đó thay đổi dữ liệu hoặc hành vi của ứng dụng và cuối cùng chiếm quyền kiểm soát hoàn toàn máy chủ.
 
-### Cách tìm lỗ hổng
-#### Quan sát và xác định các hàm số liên quan đến:
-- Tên file
-- Đường dẫn (Path)
-- URL
-    
-<!-- #### Top 25 tham số hay xuất hiện lỗ hổng
+# Đọc tệp
 
-![alt text](top-25-tham-so.jpg) -->
+Hãy tưởng tượng một ứng dụng mua sắm hiển thị ảnh của các mặt hàng đang bán. Ứng dụng có thể tải một ảnh bằng HTML sau:
 
+```php
+<img src="/loadImage?filename=218.png">
+```
 
-### Cách ngăn chặn
+URL `loadImage` nhận tham số `filename` và trả về nội dung của tệp được chỉ định. Các tệp ảnh được lưu trên đĩa tại vị trí `/var/www/images/`. Để trả về một ảnh, ứng dụng nối tên tệp được yêu cầu vào thư mục gốc này và dùng API hệ thống tệp để đọc nội dung tệp. Nói cách khác, ứng dụng đọc từ đường dẫn tệp sau:
 
-#### Sử dụng backlist để ngăn chặn Path Traversal (thay thế ../ thành "")
+```php
+/var/www/images/218.png
+```
 
-    $input = str_replace('../', '', $input);
+Ứng dụng này không triển khai bất kỳ biện pháp phòng vệ nào chống lại tấn công path traversal. Do đó, kẻ tấn công có thể yêu cầu URL sau để truy xuất tệp `/etc/passwd` từ hệ thống tệp của máy chủ:
 
+```php
+https://insecure-website.com/loadImage?filename=../../../etc/passwd
+```
 
-    '../' → '' ❌
-    '..././' → '../' (bypassed) ✅
+Điều này khiến ứng dụng đọc từ đường dẫn tệp sau:
 
-#### Sử dụng đệ quy để thực hiện xóa
+```php
+/var/www/images/../../../etc/passwd
+```
 
-    while(substr_count($input, '../', 0)) {
-        $input = str_replace('../', '', $input);
-    };
+Chuỗi `../` là hợp lệ trong một đường dẫn tệp và có nghĩa là lùi lên một cấp trong cấu trúc thư mục. Ba chuỗi `../` liên tiếp sẽ lùi từ `/var/www/images/` lên đến gốc hệ thống tệp, vì vậy tệp thực sự được đọc là:
 
+```php
+/etc/passwd
+```
 
-    ../ → (xóa) → ❌
-    .../../ → ../ → (xóa) → ❌
+Trên các hệ điều hành dựa trên Unix, đây là một tệp chuẩn chứa thông tin chi tiết về các người dùng đã đăng ký trên máy chủ, nhưng kẻ tấn công có thể lấy các tệp tùy ý khác bằng cùng kỹ thuật này.
 
-#### → Sử dụng **Blacklist** để ngăn chặn Path Traversal không phải là giải pháp an toàn và tối ưu
+Trên Windows, cả `../` và `..\` đều là các chuỗi traversal thư mục hợp lệ. Sau đây là ví dụ về một cuộc tấn công tương đương nhắm vào máy chủ chạy Windows:
 
+```php
+https://insecure-website.com/loadImage?filename=..\..\..\windows\win.ini
+```
 
-### Remediation
+# Lỗi phổ biến
 
-- Lọc và loại bỏ các **ký tự đặc biệt** trong tên File hoặc Folder
-- Chỉ sử dụng đường dẫn tuyệt đối khi xử lý File
-- Lưu trữ File ở **Cloud Storage**
-- Thực hiện đổi tên File thành dạng Hash sau khi **Upload**
-- Ngăn **Shell Code** thực thi trong thư mục **Upload**
+1. Nhiều ứng dụng đưa đầu vào của người dùng vào đường dẫn tệp đã triển khai các biện pháp phòng vệ chống tấn công path traversal. Tuy nhiên, những biện pháp này thường có thể bị vượt qua.
 
-### Làm thế nào để vô hiệu hóa ".pdf" được hardcoded trong mã nguồn
-#### Null-Byte Bypass
+Nếu một ứng dụng loại bỏ (strip) hoặc chặn các chuỗi traversal thư mục khỏi tên tệp do người dùng cung cấp, vẫn có thể vượt qua phòng vệ bằng nhiều kỹ thuật khác nhau.
 
-    - Null Byte sẽ chấm dứt một chuỗi (Null Terminator)
-    - Ký hiệu: %00, \x00
-    - Hoạt động với đa số các ngôn ngữ lập trình: Perl, PHP, Java, ASP, ASP.Net, C, ...
+Bạn có thể sử dụng một đường dẫn tuyệt đối tính từ gốc hệ thống tệp, chẳng hạn `filename=/etc/passwd`, để tham chiếu trực tiếp đến tệp mà không cần dùng các chuỗi traversal.
 
-    - Null byte (\x00) thường được dùng để kết thúc chuỗi trong ngôn ngữ C và nhiều API thấp. Khi xuất hiện trong đường dẫn (ví dụ: ../../../etc/passwd%00.jpg), nó có thể làm hệ thống hiểu rằng phần mở rộng .jpg không tồn tại, và chỉ xử lý phần ../../../etc/passwd.
+1. Bạn có thể sử dụng các chuỗi traversal thư mục lồng nhau, chẳng hạn `....//` hoặc `....\/`. Những chuỗi này sẽ trở về chuỗi traversal đơn giản khi chuỗi lồng bên trong bị loại bỏ.
+2. Trong một số ngữ cảnh, chẳng hạn trong đường dẫn URL hoặc tham số `filename` của một yêu cầu `multipart/form-data`, máy chủ web có thể loại bỏ bất kỳ chuỗi traversal thư mục nào trước khi chuyển đầu vào của bạn đến ứng dụng. Đôi khi bạn có thể vượt qua kiểu làm sạch này bằng cách mã hóa URL (URL encoding), hoặc thậm chí mã hóa URL hai lần (double URL encoding) các ký tự `../`. Điều này lần lượt tạo ra `%2e%2e%2f` và `%252e%252e%252f`. Nhiều dạng mã hóa không tiêu chuẩn khác, như `..%c0%af` hoặc `..%ef%bc%8f`, cũng có thể hoạt động.
 
-    - Lưu ý: Null Byte Injection đã được sửa lỗi từ phiên bản PHP 5.3.4
+Đối với người dùng Burp Suite Professional, Burp Intruder cung cấp danh sách payload dựng sẵn **Fuzzing - path traversal**. Danh sách này chứa một số chuỗi path traversal đã được mã hóa mà bạn có thể thử.
 
+1. Một ứng dụng có thể yêu cầu tên tệp do người dùng cung cấp phải bắt đầu bằng thư mục gốc dự kiến, chẳng hạn `/var/www/images`. Trong trường hợp này, vẫn có thể khai thác bằng cách chèn thư mục bắt buộc đó rồi thêm các chuỗi traversal phù hợp phía sau.
 
-#### Bài ví dụ: 
-- Under construction
-- File Download
-- Baby OS Path
-- Path Traversal
-- Upload File Path Traversal
-- Unzip me now
-- CVE-2021-43798
-- CVE-2023-1177
-- CVE-2021-4173 HTTPD
-- Mutation Lab
-- Flask Dev
+Ví dụ:
 
+```
+filename=/var/www/images/../../../etc/passwd
+```
+
+Khi đó, ứng dụng sẽ hợp lệ hóa đường dẫn bắt đầu từ `/var/www/images`, nhưng chuỗi `../../../` sẽ đưa bạn thoát ra ngoài và truy cập đến `/etc/passwd`.
+
+1. Một ứng dụng có thể yêu cầu tên tệp do người dùng cung cấp phải **kết thúc bằng một phần mở rộng cụ thể**, chẳng hạn `.png`. Trong trường hợp này, có thể khai thác bằng cách sử dụng **null byte** (`%00`) để chấm dứt đường dẫn tệp hiệu lực **trước** khi phần mở rộng bắt buộc được thêm vào.
+
+Ví dụ:
+
+```
+filename=../../../etc/passwd%00.png
+```
+
+Khi đó, hệ thống tệp sẽ coi chuỗi dừng ở `%00`, và tệp thực sự được đọc là:
+
+```
+/etc/passwd
+```
+
+Trong khi ứng dụng vẫn “nghĩ” rằng đường dẫn kết thúc bằng `.png`.
+
+> **Lưu ý**
+Kỹ thuật null byte injection thường chỉ hoạt động trên các ngôn ngữ/hệ thống cũ, chẳng hạn C/PHP phiên bản cũ; nhiều framework và API hiện đại đã vá không cho `%00` kết thúc chuỗi nữa.
+> 
+
+# Phòng chống
+
+Cách hiệu quả nhất để ngăn chặn lỗ hổng path traversal là **không truyền trực tiếp đầu vào từ người dùng vào API hệ thống tệp**. Nhiều chức năng ứng dụng hiện tại có thể được viết lại để đạt hành vi tương tự nhưng an toàn hơn.
+
+Nếu không thể tránh việc truyền đầu vào của người dùng cho API hệ thống tệp, bạn nên áp dụng **hai lớp phòng vệ** sau:
+
+1. **Xác thực đầu vào của người dùng trước khi xử lý**
+    - Tốt nhất là so sánh đầu vào với một **danh sách trắng (whitelist)** các giá trị được phép.
+    - Nếu không thể, hãy đảm bảo đầu vào chỉ chứa các ký tự hợp lệ, ví dụ chỉ cho phép ký tự chữ và số.
+2. **Chuẩn hóa đường dẫn (canonicalize) và kiểm tra**
+    - Sau khi xác thực, nối đầu vào với thư mục gốc đã định sẵn.
+    - Dùng API hệ thống tệp của nền tảng để chuẩn hóa đường dẫn.
+    - Kiểm tra xem đường dẫn chuẩn hóa có bắt đầu bằng thư mục gốc mong đợi hay không.
+
+Ví dụ với Java:
+
+```java
+File file = new File(BASE_DIRECTORY, userInput);
+if (file.getCanonicalPath().startsWith(BASE_DIRECTORY)) {
+    // Xử lý file an toàn
+}
+```
+
+Ở đây, `getCanonicalPath()` giúp loại bỏ các chuỗi `../` và chuẩn hóa đường dẫn, đảm bảo rằng tệp được truy cập không thể thoát ra ngoài thư mục gốc cho phép.
