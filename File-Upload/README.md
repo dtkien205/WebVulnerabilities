@@ -1,6 +1,6 @@
 # File upload vulnerabilities
 
-Lỗ hổng tải tệp lên xảy ra khi một máy chủ web cho phép người dùng tải tệp lên hệ thống tệp của nó mà không thực hiện đủ việc xác thực các yếu tố như `tên`, `loại`, `nội dung` hoặc `kích thước` của tệp. Việc không áp đặt đúng cách các hạn chế này có thể khiến ngay cả một chức năng tải ảnh cơ bản cũng bị lợi dụng để tải lên các tệp tùy ý và có khả năng gây hại. Điều này thậm chí có thể bao gồm các tệp script phía máy chủ, cho phép thực thi mã từ xa (remote code execution).
+Lỗ hổng tải tệp lên xảy ra khi một máy chủ web cho phép người dùng tải tệp lên hệ thống tệp của nó mà không thực hiện đủ việc xác thực các yếu tố như tên, loại, nội dung hoặc kích thước của tệp. Việc không áp đặt đúng cách các hạn chế này có thể khiến ngay cả một chức năng tải ảnh cơ bản cũng bị lợi dụng để tải lên các tệp tùy ý và có khả năng gây hại. Điều này thậm chí có thể bao gồm các tệp script phía máy chủ, cho phép thực thi mã từ xa (remote code execution).
 
 Trong một số trường hợp, hành động tải tệp lên bản thân nó đã đủ để gây ra thiệt hại. Các cuộc tấn công khác có thể liên quan đến việc gửi tiếp một yêu cầu HTTP cho tệp đó, thường nhằm kích hoạt việc thực thi nó bởi máy chủ.
 

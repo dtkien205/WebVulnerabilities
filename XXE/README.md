@@ -1,11 +1,7 @@
 # 🛡️ XML External Entity (XXE) Injection
 
----
-
-## 📌 XML external entity injection là gì?
-- **XML external entity injection (XXE)** là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng.  
-- Nó thường cho phép kẻ tấn công **xem các tệp trên hệ thống máy chủ** và **tương tác với các hệ thống phụ trợ hoặc bên ngoài** mà ứng dụng có thể truy cập.  
-- Trong một số tình huống, kẻ tấn công có thể **leo thang tấn công XXE để xâm phạm máy chủ hoặc hạ tầng phụ trợ**, bằng cách lợi dụng XXE để thực hiện các cuộc tấn công **SSRF (Server-Side Request Forgery)**.
+## XML external entity injection là gì?
+XML external entity injection (XXE) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng. Nó thường cho phép kẻ tấn công xem các tệp trên hệ thống máy chủ và tương tác với các hệ thống phụ trợ hoặc bên ngoài mà ứng dụng có thể truy cập. Trong một số tình huống, kẻ tấn công có thể **leo thang tấn công XXE để xâm phạm máy chủ hoặc hạ tầng phụ trợ**, bằng cách lợi dụng XXE để thực hiện các cuộc tấn công **SSRF (Server-Side Request Forgery)**.
 
 ---
 

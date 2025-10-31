@@ -1,5 +1,7 @@
 # JWT attacks
-**JSON Web Tokens (JWTs)** là **định dạng chuẩn để gửi dữ liệu JSON đã được ký số (cryptographically signed) giữa các hệ thống**.
+JSON Web Token (JWT) là một định dạng chuẩn để gửi dữ liệu JSON được ký bằng mật mã giữa các hệ thống. Về lý thuyết, JWT có thể chứa bất kỳ loại dữ liệu nào, nhưng thường được dùng để gửi thông tin (“claims”) về người dùng như một phần của cơ chế xác thực, quản lý phiên làm việc và kiểm soát truy cập.
+
+Khác với session token kiểu cổ điển, toàn bộ dữ liệu mà máy chủ cần được lưu phía client bên trong chính JWT. Điều này khiến JWT trở thành lựa chọn phổ biến cho các website phân tán cao, nơi người dùng cần tương tác liền mạch với nhiều máy chủ back-end.
 
 JWT **có thể chứa bất kỳ loại dữ liệu nào**, nhưng thường được dùng để gửi **thông tin (claims) về người dùng** nhằm phục vụ:
   - **Xác thực (authentication)**

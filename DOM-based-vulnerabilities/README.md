@@ -1,8 +1,5 @@
 # DOM-based vulnerabilities
-- DOM: Cấu trúc dạng cây mà trình duyệt tạo ra để biểu diễn các phần tử trên trang web.
-- JavaScript: Có thể thay đổi (thao tác) các phần tử DOM và thuộc tính của chúng. Đây là cách hoạt động bình thường của web hiện đại.
-- Vấn đề bảo mật: Nếu JavaScript xử lý dữ liệu không an toàn → có thể bị lợi dụng.
-- Lỗ hổng DOM-based: Xảy ra khi một giá trị do attacker kiểm soát (source) được đưa vào một hàm nguy hiểm (sink) trong JavaScript.
+The Document Object Model (DOM) là dạng biểu diễn phân cấp của trình duyệt về các phần tử trên trang. Website có thể dùng JavaScript để thao tác các node và object trong DOM cũng như các thuộc tính của chúng. Bản thân việc thao tác DOM không phải là vấn đề; thực tế, đây là phần không thể thiếu của cách các website hiện đại hoạt động. Tuy nhiên, nếu JavaScript xử lý dữ liệu không an toàn, nó có thể mở ra nhiều kiểu tấn công. Lỗ hổng dựa trên DOM xuất hiện khi website có JavaScript lấy một giá trị có thể bị kẻ tấn công kiểm soát (gọi là source) và truyền nó vào một hàm nguy hiểm (gọi là sink).
 
 ## Taint-flow vulnerabilities
 - Nhiều lỗ hổng DOM-based xuất phát từ việc code phía client xử lý dữ liệu do attacker kiểm soát (tainted data) không an toàn.
