@@ -1,4 +1,4 @@
-# Access control vulnerabilities and privilege escalation
+# Access Control Vulnerabilities And Privilege Escalation
 ## Access control là gì?
 Kiểm soát truy cập là việc áp dụng các ràng buộc lên những ai hoặc những gì được phép thực hiện hành động hay truy cập tài nguyên. Trong bối cảnh ứng dụng web, kiểm soát truy cập phụ thuộc vào xác thực và quản lý phiên:
 - **Xác thực (Authentication)** xác nhận người dùng đúng là người mà họ tuyên bố.

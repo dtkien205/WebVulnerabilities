@@ -1,4 +1,4 @@
-# CORS
+# Cross-origin resource sharing
 Chia sẻ tài nguyên liên miền (CORS - Cross-origin resource sharing) là một cơ chế của trình duyệt cho phép truy cập có kiểm soát tới các tài nguyên nằm ngoài một miền (domain) nhất định. Nó mở rộng và tăng tính linh hoạt cho chính sách cùng nguồn gốc (SOP). Tuy nhiên, nó cũng tạo điều kiện cho các cuộc tấn công xuyên miền nếu chính sách CORS của một website được cấu hình và triển khai kém. CORS không phải là một biện pháp bảo vệ chống lại các cuộc tấn công xuyên miền như giả mạo yêu cầu liên trang (CSRF).
 
 # SOP

@@ -1,4 +1,4 @@
-# SSRF
+# Server-side request forgery (SSRF)
 
 Server-side request forgery là một lỗ hổng bảo mật web cho phép kẻ tấn công khiến ứng dụng phía máy chủ thực hiện các yêu cầu tới những đích không mong muốn.
 

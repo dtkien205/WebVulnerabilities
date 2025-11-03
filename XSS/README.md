@@ -1,4 +1,4 @@
-# XSS là gì?
+# Cross-site scripting
 
 Cross-site scripting (còn được gọi là XSS) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các tương tác mà người dùng thực hiện với một ứng dụng dễ bị tấn công. Nó cho phép kẻ tấn công vượt qua chính sách cùng nguồn gốc (same origin policy), vốn được thiết kế để tách biệt các website khác nhau.
 

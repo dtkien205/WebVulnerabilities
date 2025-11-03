@@ -1,3 +1,5 @@
+# Authentication
+
 # Xác thực là gì?
 
 Xác thực (Authentication) là quá trình **xác minh danh tính** của một người dùng hoặc client. Các website có thể bị truy cập bởi bất kỳ ai kết nối Internet. Điều này khiến cho các cơ chế xác thực mạnh mẽ trở thành một phần **thiết yếu trong bảo mật web**.

@@ -1,4 +1,4 @@
-# SSTI
+# Server-side template injection (SSTI)
 
 **Server-side template injection** (SSTI) là khi kẻ tấn công có thể sử dụng cú pháp gốc của hệ thống template để chèn một payload độc hại vào template, và payload này được thực thi ở phía máy chủ.
 

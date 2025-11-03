@@ -1,4 +1,4 @@
-# API testing
+# API Testing
 
 API (Application Programming Interfaces) cho phép các hệ thống và ứng dụng phần mềm giao tiếp và chia sẻ dữ liệu với nhau. Việc kiểm thử API rất quan trọng vì các lỗ hổng trong API có thể làm suy yếu các khía cạnh cốt lõi của một trang web.
 

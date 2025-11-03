@@ -1,4 +1,6 @@
-# SQLite
+# SQLite Lead To RCE
+
+## SQLite
 SQLite là một engine cơ sở dữ liệu SQL nhúng, độc lập (không cần server riêng), nhẹ nhưng đầy đủ tính năng và được dùng rộng rãi.
 - **Storage backend for web browsers** - SQLite được dùng làm lưu trữ cục bộ cho trình duyệt (ví dụ WebSQL/IndexedDB nội bộ).
 - **Programming language binding** - Có binding cho nhiều ngôn ngữ (Python, PHP, Java, v.v.), tức là dễ tích hợp vào app viết bằng nhiều ngôn ngữ.

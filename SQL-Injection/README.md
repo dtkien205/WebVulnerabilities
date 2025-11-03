@@ -1,4 +1,4 @@
-# SQLi là gì?
+# SQL injection
 
 SQL injection (SQLi) là một lỗ hổng bảo mật web cho phép kẻ tấn công can thiệp vào các truy vấn mà ứng dụng gửi đến cơ sở dữ liệu của nó. Điều này có thể cho phép kẻ tấn công xem được dữ liệu mà bình thường họ không thể truy xuất. Dữ liệu này có thể bao gồm dữ liệu thuộc về người dùng khác hoặc bất kỳ dữ liệu nào mà ứng dụng có quyền truy cập. Trong nhiều trường hợp, kẻ tấn công có thể sửa đổi hoặc xóa dữ liệu này, gây ra các thay đổi lâu dài đối với nội dung hoặc hành vi của ứng dụng.
 
