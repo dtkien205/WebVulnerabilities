@@ -1,4 +1,4 @@
-# Clickjacking (đánh lừa giao diện người dùng)
+# Clickjacking 
 
 ## Clickjacking là gì?
 
