@@ -1,5 +1,7 @@
 # Clickjacking 
 
+![alt text](image-1.png)
+
 ## Clickjacking là gì?
 
 Clickjacking là một kiểu tấn công dựa trên giao diện, trong đó người dùng bị lừa bấm vào một thành phần có thể tương tác trên một website bị ẩn, trong khi họ tưởng rằng mình đang bấm vào nội dung khác trên một website giả mạo.
